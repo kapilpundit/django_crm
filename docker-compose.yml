@@ -1,0 +1,63 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: dcrm_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: dcrm_db
+      MYSQL_USER: mysqluser
+      MYSQL_PASSWORD: 123456
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - dcrm_network
+    command: --default-authentication-plugin=mysql_native_password --bind-address=0.0.0.0
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+    container_name: dcrm_django_backend
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./backend:/app
+    working_dir: /app
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy  # Ensure backend waits for db to be healthy
+    networks:
+      - dcrm_network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: dcrm_phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: dcrm_db  # Ensure the host is the same as the db service name
+      PMA_PORT: 3306            # Ensure the port is correct
+      PMA_USER: root
+      PMA_PASSWORD: root
+      SERVER_NAME: localhost  # Set the ServerName to suppress the Apache warning
+    ports:
+      - "8080:80"
+    depends_on:
+      db:
+        condition: service_healthy  # Ensure phpMyAdmin waits for db to be healthy
+    networks:
+      - dcrm_network
+
+networks:
+  dcrm_network:
+    driver: bridge
+
+volumes:
+  mysql_data:

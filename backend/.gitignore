@@ -1,1 +1,3 @@
 venv/
+dcrm/__pycache__
+website/__pycache__

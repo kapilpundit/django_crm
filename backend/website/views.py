@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import SignUpForm
+from .forms import SignUpForm, CreateCustomerForm
 from .models import Customer
 
 # Create your views here.
@@ -51,10 +51,34 @@ def customer_record(request, id):
     if request.user.is_authenticated:
         # Look up customer with primary key id
         # in the website_customer table
-        customer_record = Customer.objects.get(id=id)
+        customer = Customer.objects.get(id=id)
         return render(request, 'customer_record.html', {
-            'customer_record': customer_record
+            'customer': customer
         })
     else:
         messages.warning(request, 'You must be logged in to view customer records.')
+        return redirect('home')
+    
+def delete_customer(request, id):
+    if request.user.is_authenticated:
+        delete_customer = Customer.objects.get(id=id)
+        delete_customer.delete()
+        messages.success(request, f'{delete_customer} record deleted successfully.')
+    else:
+        messages.warning(request, 'You must be logged in to delete customer records.')
+        
+    return redirect('home')
+
+def create_customer(request):
+    if request.user.is_authenticated:
+        form = CreateCustomerForm(request.POST or None)
+        if request.method == 'POST':
+            if form.is_valid():
+                create_customer = form.save()
+                messages.success(request, f'Customer {create_customer} created successfully.')
+                return redirect('home')
+
+        return render(request, 'create_customer.html', {'form': form})
+    else:
+        messages.warning(request, 'You must be logged in to create customer records.')
         return redirect('home')

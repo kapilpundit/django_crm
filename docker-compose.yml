@@ -25,6 +25,7 @@ services:
     build:
       context: ./backend
     container_name: dcrm_django_backend
+    restart: unless-stopped
     command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - ./backend:/app

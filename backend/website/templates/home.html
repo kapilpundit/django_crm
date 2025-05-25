@@ -26,9 +26,11 @@
         {% if customers %}
         {% for customer in customers %}
         <tr>
-            <th scope="row">
+            <td scope="row">
+                <a href="{% url 'customer-record' customer.id %}">
                 {{ customer.id }}
-            </th>
+                </a>
+            </td>
             <td>
                 {{ customer.first_name }} {{ customer.last_name }}
             </td>
@@ -62,26 +64,26 @@
 </table>
 
 {% else %}
+<div class="col-md-6 offset-md-3">
+    <h1>
+        Login
+    </h1>
 
-<h1>
-    Login
-</h1>
+    <br />
 
-<br />
+    <form method="post" action="{% url 'home' %}">
+        {% csrf_token %}
+        <div class="mb-3">
+            <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+        </div>
+        <div class="mb-3">
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+        </div>
+        <button type="submit" class="btn btn-secondary">Login</button>
+    </form>
 
-<form method="post" action="{% url 'home' %}">
-    {% csrf_token %}
-    <div class="mb-3">
-        <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
-    </div>
-    <div class="mb-3">
-        <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-    </div>
-    <button type="submit" class="btn btn-secondary">Login</button>
-</form>
-
+</div>
 {% endif %}
 
-<!-- </div> -->
 
 {% endblock %}

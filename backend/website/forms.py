@@ -51,7 +51,7 @@ class SignUpForm(UserCreationForm):
 
 
 # Create Customer Form
-class CreateCustomerForm(forms.ModelForm):
+class CustomerRecordForm(forms.ModelForm):
     first_name = forms.CharField(
         required=True,
         label='',

@@ -9,4 +9,5 @@ urlpatterns = [
     path('customer/<int:id>', views.customer_record, name='customer-record'),
     path('customer/<int:id>/delete', views.delete_customer, name='delete-customer'),
     path('customer/create', views.create_customer, name='create-customer'),
+    path('customer/<int:id>/update', views.update_customer, name='update-customer'),
 ]

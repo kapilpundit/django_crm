@@ -36,6 +36,9 @@
 <a href="{% url 'home' %}" class="btn btn-secondary mt-2">
   Back
 </a>
+<a href="{% url 'update-customer' customer.id %}" class="btn btn-primary mt-2">
+  Edit
+</a>
 <a href="{% url 'delete-customer' customer.id %}" class="btn btn-danger mt-2">
   Delete
 </a>

@@ -9,7 +9,16 @@
 
         {{ form.as_p }}
 
-        <button type="submit" class="btn btn-secondary">Create Customer</button>
+        <button type="submit" class="btn btn-primary">
+            Create Customer
+        </button>
+
+        <a
+            class="btn btn-secondary"
+            href="{% url 'home' %}"
+        >
+            Back
+        </a>
 
     </form>
 

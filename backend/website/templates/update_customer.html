@@ -9,7 +9,16 @@
 
         {{ form.as_p }}
 
-        <button type="submit" class="btn btn-secondary">Update Customer</button>
+        <button type="submit" class="btn btn-primary">
+            Update Customer
+        </button>
+
+        <a
+            class="btn btn-secondary"
+            href="{% url 'customer-record' customer.id %}"
+        >
+            Back
+        </a>
 
     </form>
 

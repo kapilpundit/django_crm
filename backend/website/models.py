@@ -14,3 +14,13 @@ class Customer(models.Model):
 
     def __str__(self):
         return (f"{self.first_name} {self.last_name}")
+
+# Order model
+class Order(models.Model):
+    # Order belongs to Customer (One to Many relationship)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="orders")
+    order_number = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.order_number} {self.customer}"

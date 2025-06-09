@@ -2,12 +2,10 @@ from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import SignUpForm, CustomerRecordForm
-from .models import Customer
+from .models import Customer, Order
 
 # Create your views here.
 def home(request):
-    customers = Customer.objects.all()
-
     # Check to see if logging in
     username = password = ''
     if request.method == 'POST':
@@ -23,6 +21,7 @@ def home(request):
             messages.error(request, 'Invalid credentials')
             return redirect('home')
     else:
+        customers = Customer.objects.all()
         return render(request, 'home.html', {'customers': customers})
 
 def logout_user(request):
@@ -101,3 +100,9 @@ def update_customer(request, id):
     else:
         messages.warning(request, 'You must be logged in to edit customer records.')
         return redirect('home')   
+
+def customer_orders(request, id):
+    orders = Order.objects.filter(customer=id)
+
+    return render(request, 'orders/order_list.html', {'orders': orders})
+

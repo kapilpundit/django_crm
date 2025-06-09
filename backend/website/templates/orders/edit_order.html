@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="col-md-6 offset-md-3">
+    <h1>Update Order</h1>
+
+    <form method="post" action="{% url 'update-order' order.id %}">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <a
+            class="btn btn-secondary"
+            href="{% url 'order-record' order.id %}"
+        >
+            Back
+        </a>
+
+        <button type="submit" class="btn btn-primary">
+            Update Order
+        </button>
+
+    </form>
+
+</div>
+{% endblock %}

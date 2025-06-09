@@ -1,0 +1,30 @@
+{% extends '../base.html' %}
+{% block content %}
+
+<div class="card">
+  <div class="card-header">
+    Id: {{ order.order_number }}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">
+      <a href="{% url 'customer-record' order.customer.id %}">
+      {{ order.customer }}
+      </a>
+    </h5>
+    <p class="card-text">
+      <strong>Created At: </strong>{{ order.created_at }}
+    </p>
+  </div>
+</div>
+
+<a href="{% url 'order-list' %}" class="btn btn-secondary mt-2">
+  Back
+</a>
+<a href="{% url 'edit-order' order.id %}" class="btn btn-primary mt-2">
+  Edit
+</a>
+<a href="{% url 'delete-order' order.id %}" class="btn btn-danger mt-2">
+  Delete
+</a>
+
+{% endblock %}
